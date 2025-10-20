@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Master - AI-Powered Interview Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body data-theme="light">
+    <div id="app">
+        <!-- Navigation -->
+        <nav class="navbar">
+            <div class="nav-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Interview Master</span>
+            </div>
+            <div class="nav-actions" id="navActions" style="display: none;">
+                <div class="theme-switcher">
+                    <button id="themeToggle" class="btn-secondary">
+                        <i class="fas fa-palette"></i> Theme
+                    </button>
+                    <div class="theme-dropdown" id="themeDropdown">
+                        <button class="theme-option active" data-theme="light">Light</button>
+                        <button class="theme-option" data-theme="dark">Dark</button>
+                    </div>
+                </div>
+                <div class="user-menu">
+                    <button id="userMenuBtn" class="btn-user">
+                        <div class="user-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <span id="userMenuName">User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="user-dropdown" id="userDropdown">
+                        <button class="dropdown-item" id="navHomeBtn">
+                            <i class="fas fa-home"></i> Home
+                        </button>
+                        <button class="dropdown-item" id="navDashboardBtn">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </button>
+                        <button class="dropdown-item" id="navEditProfileBtn">
+                            <i class="fas fa-user-edit"></i> Edit Profile
+                        </button>
+                        <div class="dropdown-divider"></div>
+                        <button class="dropdown-item" id="navLogoutBtn">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Login/Signup Form -->
+        <div id="authContainer" class="container">
+            <div class="auth-form">
+                <div class="auth-header">
+                    <h2 id="authTitle">Welcome to Interview Master</h2>
+                    <p id="authSubtitle">Sign in to start your interview journey</p>
+                </div>
+                
+                <form id="authForm">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    
+                    <div class="form-group" id="confirmPasswordGroup" style="display: none;">
+                        <label for="confirmPassword">Confirm Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword">
+                    </div>
+                    
+                    <div class="form-group" id="nameGroup" style="display: none;">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" id="fullName" name="fullName">
+                    </div>
+                    
+                    <button type="submit" id="authSubmit" class="btn-primary">Sign In</button>
+                </form>
+                
+                <div class="auth-switch">
+                    <p id="authSwitchText">Don't have an account?</p>
+                    <button id="authSwitchBtn" class="btn-link">Sign Up</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard -->
+        <div id="dashboard" class="container" style="display: none;">
+            <div class="dashboard-header">
+                <h1>Welcome, <span id="userName"></span>!</h1>
+            </div>
+            
+            <!-- Analytics Section -->
+            <div class="analytics-section">
+                <h2>Your Performance Analytics</h2>
+                <div class="analytics-grid">
+                    <div class="analytics-card credits-card">
+                        <div class="card-icon">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 id="totalCredits">0</h3>
+                            <p>Total Credits</p>
+                            <span class="card-description">Earned through interviews</span>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card streak-card">
+                        <div class="card-icon">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 id="currentStreak">0</h3>
+                            <p>Current Streak</p>
+                            <span class="card-description">Consecutive good performances</span>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card accuracy-card">
+                        <div class="card-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 id="accuracy">0%</h3>
+                            <p>Overall Accuracy</p>
+                            <span class="card-description">Average across all domains</span>
+                        </div>
+                    </div>
+                    
+                    <div class="analytics-card interviews-card">
+                        <div class="card-icon">
+                            <i class="fas fa-clipboard-check"></i>
+                        </div>
+                        <div class="card-content">
+                            <h3 id="totalInterviews">0</h3>
+                            <p>Interviews Completed</p>
+                            <span class="card-description">Total interviews taken</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Profile Section -->
+            <div class="profile-section">
+                <h2>Profile Information</h2>
+                <div class="profile-card">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="profile-details">
+                            <h3 id="profileName">Full Name</h3>
+                            <p id="profileEmail">Email Address</p>
+                            <p id="profileJoinDate">Member since: Loading...</p>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <span class="stat-number" id="profileCredits">0</span>
+                            <span class="stat-label">Credits</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="stat-number" id="profileStreak">0</span>
+                            <span class="stat-label">Streak</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="stat-number" id="profileAccuracy">0%</span>
+                            <span class="stat-label">Accuracy</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Interview History Section -->
+            <div class="interview-history-section">
+                <h2>Interview History & Progress</h2>
+                <div class="history-container">
+                    <div class="history-stats">
+                        <div class="history-stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-chart-bar"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="totalAttempts">0</h3>
+                                <p>Total Attempts</p>
+                            </div>
+                        </div>
+                        <div class="history-stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="averageScore">0%</h3>
+                                <p>Average Score</p>
+                            </div>
+                        </div>
+                        <div class="history-stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="bestScore">0%</h3>
+                                <p>Best Score</p>
+                            </div>
+                        </div>
+                        <div class="history-stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-fire"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="currentStreakHistory">0</h3>
+                                <p>Current Streak</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="interview-history-list">
+                        <h3>Recent Interviews</h3>
+                        <div id="interviewHistoryList" class="history-list">
+                            <!-- Interview history items will be populated here -->
+                            <div class="no-history">
+                                <i class="fas fa-clipboard-list"></i>
+                                <p>No interviews completed yet</p>
+                                <small>Start your first interview to see your progress here</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="domains-grid">
+                <div class="welcome-section">
+                    <div class="welcome-content">
+                        <h2>🚀 Welcome to Interview Master!</h2>
+                        <p>Choose your domain and start mastering new skills with our interactive interview platform. Experience the future of online learning!</p>
+                        <div class="features-highlight">
+                            <div class="feature-item">
+                                <span class="feature-icon">🎥</span>
+                                <span>Live Monitoring</span>
+                                <span class="feature-desc">AI-powered surveillance</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">🏆</span>
+                                <span>Credit System</span>
+                                <span class="feature-desc">Earn rewards & achievements</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">📈</span>
+                                <span>Progress Tracking</span>
+                                <span class="feature-desc">Real-time analytics</span>
+                            </div>
+                            <div class="feature-item">
+                                <span class="feature-icon">🎓</span>
+                                <span>E-Certificates</span>
+                                <span class="feature-desc">Digital credentials</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h2 class="domains-title">🎯 Choose Your Domain</h2>
+                <div class="domains-container">
+                    <div class="domain-card" data-domain="data-analytics">
+                        <div class="domain-icon">
+                            <i class="fas fa-chart-bar"></i>
+                        </div>
+                        <h3>Data Analytics</h3>
+                        <p>Master data analysis and visualization</p>
+                        <div class="domain-info">
+                            <span class="difficulty-badge easy">Easy: 45 Q</span>
+                            <span class="difficulty-badge medium">Medium: 30 Q</span>
+                            <span class="difficulty-badge hard">Hard: 15 Q</span>
+                        </div>
+                        <div class="start-button">Start Learning →</div>
+                    </div>
+                    
+                    <div class="domain-card" data-domain="machine-learning">
+                        <div class="domain-icon">
+                            <i class="fas fa-brain"></i>
+                        </div>
+                        <h3>Machine Learning</h3>
+                        <p>Explore AI and ML algorithms</p>
+                        <div class="domain-info">
+                            <span class="difficulty-badge easy">Easy: 45 Q</span>
+                            <span class="difficulty-badge medium">Medium: 30 Q</span>
+                            <span class="difficulty-badge hard">Hard: 15 Q</span>
+                        </div>
+                        <div class="start-button">Start Learning →</div>
+                    </div>
+                    
+                    <div class="domain-card" data-domain="web-development">
+                        <div class="domain-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Web Development</h3>
+                        <p>Frontend and backend development</p>
+                        <div class="domain-info">
+                            <span class="difficulty-badge easy">Easy: 45 Q</span>
+                            <span class="difficulty-badge medium">Medium: 30 Q</span>
+                            <span class="difficulty-badge hard">Hard: 15 Q</span>
+                        </div>
+                        <div class="start-button">Start Learning →</div>
+                    </div>
+                    
+                    <div class="domain-card" data-domain="dsa">
+                        <div class="domain-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <h3>Data Structures & Algorithms</h3>
+                        <p>Master problem-solving skills</p>
+                        <div class="domain-info">
+                            <span class="difficulty-badge easy">Easy: 45 Q</span>
+                            <span class="difficulty-badge medium">Medium: 30 Q</span>
+                            <span class="difficulty-badge hard">Hard: 15 Q</span>
+                        </div>
+                        <div class="start-button">Start Learning →</div>
+                    </div>
+                    
+                    <div class="domain-card" data-domain="gd-round">
+                        <div class="domain-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>Group Discussion</h3>
+                        <p>Communication and leadership skills</p>
+                        <div class="domain-info">
+                            <span class="difficulty-badge easy">Easy: 45 Q</span>
+                            <span class="difficulty-badge medium">Medium: 30 Q</span>
+                            <span class="difficulty-badge hard">Hard: 15 Q</span>
+                        </div>
+                        <div class="start-button">Start Learning →</div>
+                    </div>
+                    
+                    <div class="domain-card" data-domain="cloud-computing">
+                        <div class="domain-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3>Cloud Computing</h3>
+                        <p>AWS, Azure, and cloud architecture</p>
+                        <div class="domain-info">
+                            <span class="difficulty-badge easy">Easy: 45 Q</span>
+                            <span class="difficulty-badge medium">Medium: 30 Q</span>
+                            <span class="difficulty-badge hard">Hard: 15 Q</span>
+                        </div>
+                        <div class="start-button">Start Learning →</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Difficulty Selection -->
+        <div id="difficultySelection" class="container" style="display: none;">
+            <div class="difficulty-header">
+                <h1 id="domainTitle">Select Difficulty Level</h1>
+                <p>Choose your challenge level for <span id="selectedDomain"></span></p>
+            </div>
+            
+            <div class="difficulty-cards">
+                <div class="difficulty-card" data-level="easy">
+                    <div class="difficulty-icon easy">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Easy</h3>
+                    <p>45 Questions</p>
+                    <p>Perfect for beginners</p>
+                    <div class="difficulty-time">~60 minutes</div>
+                </div>
+                
+                <div class="difficulty-card" data-level="medium">
+                    <div class="difficulty-icon medium">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h3>Medium</h3>
+                    <p>30 Questions</p>
+                    <p>Intermediate level</p>
+                    <div class="difficulty-time">~45 minutes</div>
+                </div>
+                
+                <div class="difficulty-card" data-level="hard">
+                    <div class="difficulty-icon hard">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>Hard</h3>
+                    <p>15 Questions</p>
+                    <p>Expert level challenge</p>
+                    <div class="difficulty-time">~30 minutes</div>
+                </div>
+            </div>
+            
+            <button id="backToDomains" class="btn-secondary">
+                <i class="fas fa-arrow-left"></i> Back to Domains
+            </button>
+        </div>
+
+        <!-- Interview Interface -->
+        <div id="interviewInterface" class="container" style="display: none;">
+            <div class="interview-header">
+                <div class="interview-info">
+                    <h2 id="interviewTitle">Interview in Progress</h2>
+                    <div class="interview-meta">
+                        <span id="questionCounter">Question 1 of 45</span>
+                        <span id="timeRemaining">60:00</span>
+                        <span id="randomizationInfo">Questions Randomized</span>
+                    </div>
+                </div>
+                <div class="monitoring-status">
+                    <div class="status-indicator" id="cameraStatus">
+                        <i class="fas fa-video"></i>
+                        <span>Camera Off</span>
+                    </div>
+                    <div class="status-indicator" id="micStatus">
+                        <i class="fas fa-microphone"></i>
+                        <span>Microphone Off</span>
+                    </div>
+                    <div class="status-indicator" id="focusStatus">
+                        <i class="fas fa-eye"></i>
+                        <span>Focused</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interview-content">
+                <div class="question-section">
+                    <div class="question-header">
+                        <h3 id="questionText">Question will appear here...</h3>
+                    </div>
+                    
+                    <div class="question-type" id="questionType">
+                        <span class="type-badge mcq">MCQ</span>
+                    </div>
+                    
+                    <div class="options-container" id="optionsContainer">
+                        <!-- Options will be dynamically generated -->
+                    </div>
+                    
+                    <div class="text-answer-container" id="textAnswerContainer" style="display: none;">
+                        <textarea id="textAnswer" placeholder="Type your answer here..."></textarea>
+                    </div>
+                    
+                    <div class="answer-actions">
+                        <button id="prevQuestion" class="btn-secondary" disabled>
+                            <i class="fas fa-chevron-left"></i> Previous
+                        </button>
+                        <button id="nextQuestion" class="btn-primary">
+                            Next <i class="fas fa-chevron-right"></i>
+                        </button>
+                        <button id="submitInterview" class="btn-success" style="display: none;">
+                            <i class="fas fa-check"></i> Submit Interview
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results -->
+        <div id="resultsContainer" class="container" style="display: none;">
+            <div class="results-header">
+                <h1>Interview Results</h1>
+                <div class="overall-score">
+                    <div class="score-circle">
+                        <span id="overallScore">85%</span>
+                    </div>
+                    <p>Overall Score</p>
+                </div>
+            </div>
+            
+            <div class="results-breakdown">
+                <div class="result-card">
+                    <h3>Performance Summary</h3>
+                    <div class="result-stats">
+                        <div class="stat">
+                            <span class="label">Correct Answers:</span>
+                            <span class="value" id="correctAnswers">38/45</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Accuracy:</span>
+                            <span class="value" id="resultAccuracy">84.4%</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Time Taken:</span>
+                            <span class="value" id="timeTaken">52:30</span>
+                        </div>
+                        <div class="stat">
+                            <span class="label">Credits Earned:</span>
+                            <span class="value" id="creditsEarned">+150</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Correct Answers Review Section -->
+            <div id="correctAnswersContainer" class="correct-answers-review">
+                <!-- Correct answers will be populated here -->
+            </div>
+            
+            <div class="results-actions">
+                <button id="retakeInterview" class="btn-secondary">
+                    <i class="fas fa-redo"></i> Retake Interview
+                </button>
+                <button id="backToDashboard" class="btn-primary">
+                    <i class="fas fa-home"></i> Back to Dashboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Profile Modal - Enhanced Design -->
+    <div id="editProfileModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content edit-profile-modal">
+            <div class="edit-profile-header">
+                <button type="button" class="modal-close-btn" id="closeEditProfileBtn">
+                    <i class="fas fa-times"></i>
+                </button>
+                <div class="profile-icon">
+                    <i class="fas fa-user-edit"></i>
+                </div>
+                <h2>Edit Profile</h2>
+                <p>Update your personal information and security settings</p>
+            </div>
+            
+            <form id="editProfileForm" class="edit-profile-form">
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-user"></i>
+                        <span>Personal Information</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editFullName">
+                            <i class="fas fa-id-card"></i>
+                            Full Name
+                        </label>
+                        <input type="text" id="editFullName" name="fullName" required>
+                        <div class="input-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="editEmail">
+                            <i class="fas fa-envelope"></i>
+                            Email Address
+                        </label>
+                        <input type="email" id="editEmail" name="email" required readonly>
+                        <div class="input-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-section">
+                    <div class="section-title">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Security Settings</span>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="currentPassword">
+                            <i class="fas fa-key"></i>
+                            Current Password
+                        </label>
+                        <input type="password" id="currentPassword" name="currentPassword" placeholder="Enter current password to change details">
+                        <div class="input-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="newPassword">
+                            <i class="fas fa-lock"></i>
+                            New Password
+                        </label>
+                        <input type="password" id="newPassword" name="newPassword" placeholder="Leave empty to keep current password">
+                        <div class="input-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirmNewPassword">
+                            <i class="fas fa-lock"></i>
+                            Confirm New Password
+                        </label>
+                        <input type="password" id="confirmNewPassword" name="confirmNewPassword" placeholder="Confirm new password">
+                        <div class="input-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="password-reset-section">
+                        <button type="button" id="resetPasswordBtn" class="reset-password-btn">
+                            <i class="fas fa-key"></i>
+                            <span>Reset Password</span>
+                        </button>
+                        <p class="reset-password-info">Forgot your password? Reset it using your email address.</p>
+                    </div>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="submit" class="btn-primary save-btn">
+                        <i class="fas fa-save"></i>
+                        <span>Save Changes</span>
+                        <div class="btn-shine"></div>
+                    </button>
+                    <button type="button" id="cancelEditProfile" class="btn-secondary cancel-btn">
+                        <i class="fas fa-times"></i>
+                        <span>Cancel</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

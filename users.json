@@ -1,0 +1,28 @@
+{
+  "test@example.com": {
+    "id": "be65e41d-8ac3-486c-bc13-baced25d7945",
+    "email": "test@example.com",
+    "password_hash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",
+    "fullName": "Test User",
+    "credits": 0,
+    "currentStreak": 0,
+    "bestStreak": 0,
+    "overallAccuracy": 0.0,
+    "totalInterviews": 0,
+    "createdAt": "2025-10-13T20:59:18.712522",
+    "lastLogin": "2025-10-13T21:00:23.224947",
+    "interviewsCompleted": 0,
+    "streak": 0,
+    "accuracy": 0
+  },
+  "harshi.j@example.com": {
+    "email": "harshi.j@example.com",
+    "password_hash": "c775e7b757ede630cd0aa1113bd102661ab38829ca52a6422ab782862f268646",
+    "fullName": "Harshi",
+    "credits": 0,
+    "streak": 0,
+    "accuracy": 0,
+    "created_at": "2025-10-14T10:32:55.007147",
+    "interviewsCompleted": 0
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "test@example.com": {
+    "data-analytics": {
+      "completed": 2,
+      "interviews": [
+        {
+          "difficulty": "easy",
+          "score": 85,
+          "timestamp": "2025-10-14T01:45:51.250038"
+        },
+        {
+          "difficulty": "easy",
+          "score": 4,
+          "timestamp": "2025-10-14T04:18:51.972882"
+        }
+      ]
+    },
+    "gd-round": {
+      "completed": 1,
+      "interviews": [
+        {
+          "difficulty": "easy",
+          "score": 0,
+          "timestamp": "2025-10-14T10:30:44.438662"
+        }
+      ]
+    }
+  }
+}
